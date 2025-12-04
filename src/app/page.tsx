@@ -1,42 +1,28 @@
 "use client";
 
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useState } from "react";
 import { Advocate } from "@/db/schema";
 
 export default function Home() {
   const [advocates, setAdvocates] = useState<Advocate[]>([]);
-  const [filteredAdvocates, setFilteredAdvocates] = useState<Advocate[]>([]);
-  const [searchTerm, setSearchTerm] = useState<string>("");
+  const [searchTerm, setSearchTerm] = useState("");
 
-  useEffect(() => {
-    fetch("/api/advocates").then((response) => {
-      response.json().then((jsonResponse) => {
-        setAdvocates(jsonResponse.data);
-        setFilteredAdvocates(jsonResponse.data);
-      });
-    });
+  const fetchAdvocates = useCallback(async (search: string) => {
+    const params = search ? `?search=${encodeURIComponent(search)}` : "";
+    const response = await fetch(`/api/advocates${params}`);
+    const json = await response.json();
+    setAdvocates(json.data);
   }, []);
 
+  useEffect(() => {
+    fetchAdvocates(searchTerm);
+  }, [fetchAdvocates, searchTerm]);
+
   const onSearchTermChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const term = e.target.value;
-    setSearchTerm(term);
-
-    const filteredAdvocates = advocates.filter((advocate) => {
-      return (
-        advocate.firstName.includes(term) ||
-        advocate.lastName.includes(term) ||
-        advocate.city.includes(term) ||
-        advocate.degree.includes(term) ||
-        advocate.specialties.some((specialty) => specialty.includes(term)) ||
-        advocate.yearsOfExperience.toString().includes(term)
-      );
-    });
-
-    setFilteredAdvocates(filteredAdvocates);
+    setSearchTerm(e.target.value);
   };
 
-  const onResetSearchClick = () => {
-    setFilteredAdvocates(advocates);
+  const resetSearch = () => {
     setSearchTerm("");
   };
 
@@ -51,7 +37,7 @@ export default function Home() {
           Searching for: <span>{searchTerm}</span>
         </p>
         <input style={{ border: "1px solid black" }} onChange={onSearchTermChange} />
-        <button onClick={onResetSearchClick}>Reset Search</button>
+        <button onClick={resetSearch}>Reset Search</button>
       </div>
       <br />
       <br />
@@ -68,7 +54,7 @@ export default function Home() {
           </tr>
         </thead>
         <tbody>
-          {filteredAdvocates.map((advocate) => {
+          {advocates.map((advocate) => {
             return (
               <tr key={advocate.id}>
                 <td>{advocate.firstName}</td>

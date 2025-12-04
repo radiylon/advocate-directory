@@ -1,22 +1,11 @@
 "use client";
 
-import { ChangeEvent, useCallback, useEffect, useState } from "react";
-import { Advocate } from "@/db/schema";
+import { ChangeEvent, useState } from "react";
+import { useAdvocates } from "@/hooks/useAdvocates";
 
 export default function Home() {
-  const [advocates, setAdvocates] = useState<Advocate[]>([]);
   const [searchTerm, setSearchTerm] = useState("");
-
-  const fetchAdvocates = useCallback(async (search: string) => {
-    const params = search ? `?search=${encodeURIComponent(search)}` : "";
-    const response = await fetch(`/api/advocates${params}`);
-    const json = await response.json();
-    setAdvocates(json.data);
-  }, []);
-
-  useEffect(() => {
-    fetchAdvocates(searchTerm);
-  }, [fetchAdvocates, searchTerm]);
+  const advocates = useAdvocates(searchTerm);
 
   const onSearchTermChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
@@ -36,7 +25,7 @@ export default function Home() {
         <p>
           Searching for: <span>{searchTerm}</span>
         </p>
-        <input style={{ border: "1px solid black" }} onChange={onSearchTermChange} />
+        <input style={{ border: "1px solid black" }} value={searchTerm} onChange={onSearchTermChange} />
         <button onClick={resetSearch}>Reset Search</button>
       </div>
       <br />

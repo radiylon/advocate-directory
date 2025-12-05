@@ -8,11 +8,13 @@ import { SearchInput } from "@/app/components/SearchInput";
 import { useAdvocates } from "../hooks/useAdvocates";
 import { useDebounce } from "../hooks/useDebounce";
 
+const SEARCH_DEBOUNCE_MS = 300;
+
 export default function Home() {
   const [searchTerm, setSearchTerm] = useQueryState("search", parseAsString.withDefault(""));
   const [currentPage, setCurrentPage] = useQueryState("page", parseAsInteger.withDefault(1));
 
-  const debouncedSearch = useDebounce(searchTerm, 300);
+  const debouncedSearch = useDebounce(searchTerm, SEARCH_DEBOUNCE_MS);
   const { advocates, pagination, isLoading, isError } = useAdvocates(debouncedSearch, currentPage);
 
   const onSearchTermChange = (e: ChangeEvent<HTMLInputElement>) => {

@@ -1,5 +1,7 @@
 import { Advocate } from "@/db/schema";
 
+const MAX_VISIBLE_SPECIALTIES = 3;
+
 interface AdvocateCardProps {
   advocate: Advocate;
 }
@@ -13,6 +15,9 @@ function formatPhoneNumber(phone: number): string {
 }
 
 export function AdvocateCard({ advocate }: AdvocateCardProps) {
+  const visibleSpecialties = advocate.specialties.slice(0, MAX_VISIBLE_SPECIALTIES);
+  const remainingCount = advocate.specialties.length - MAX_VISIBLE_SPECIALTIES;
+
   return (
     <div className="rounded-lg border border-primary/20 bg-white p-4 transition-shadow hover:border-primary/40 hover:shadow-md cursor-pointer">
       <div className="flex items-start justify-between gap-4">
@@ -25,22 +30,22 @@ export function AdvocateCard({ advocate }: AdvocateCardProps) {
         </div>
         <div className="shrink-0 flex flex-col items-end text-base text-gray-700">
           <span className="text-black font-bold text-lg">{advocate.city}</span>
-          <span className="text-gray-700">{formatPhoneNumber(Number(advocate.phoneNumber))}</span>
+          <span className="text-gray-700">{formatPhoneNumber(advocate.phoneNumber)}</span>
         </div>
       </div>
 
       <div className="mt-3 flex flex-wrap gap-2">
-        {advocate.specialties.slice(0, 3).map((specialty, index) => (
+        {visibleSpecialties.map((specialty) => (
           <span
-            key={index}
+            key={specialty}
             className="rounded-full bg-secondary/20 px-3 py-1 text-sm text-primary"
           >
             {specialty}
           </span>
         ))}
-        {advocate.specialties.length > 3 && (
+        {remainingCount > 0 && (
           <span className="rounded-full bg-gray-100 px-3 py-1 text-sm text-gray-600">
-            +{advocate.specialties.length - 3} more
+            +{remainingCount} more
           </span>
         )}
       </div>

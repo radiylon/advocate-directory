@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { Advocate } from "@/db/schema";
 
 interface Pagination {
@@ -8,9 +8,11 @@ interface Pagination {
   totalCount: number;
 }
 
-interface UseAdvocatesResult {
+interface AdvocatesQueryResult {
   advocates: Advocate[];
   pagination: Pagination;
+  isLoading: boolean;
+  isError: boolean;
 }
 
 const DEFAULT_PAGINATION: Pagination = {
@@ -20,25 +22,29 @@ const DEFAULT_PAGINATION: Pagination = {
   totalCount: 0,
 };
 
-export function useAdvocates(searchTerm: string, page: number = 1): UseAdvocatesResult {
-  const [advocates, setAdvocates] = useState<Advocate[]>([]);
-  const [pagination, setPagination] = useState<Pagination>(DEFAULT_PAGINATION);
+async function getAdvocates(search: string, currentPage: number) {
+  const params = new URLSearchParams();
+  if (search) params.set("search", search);
+  params.set("page", String(currentPage));
+  params.set("limit", "20");
 
-  const fetchAdvocates = useCallback(async (search: string, currentPage: number) => {
-    const params = new URLSearchParams();
-    if (search) params.set("search", search);
-    params.set("page", String(currentPage));
-    params.set("limit", "20");
+  const response = await fetch(`/api/advocates?${params}`);
+  if (!response.ok) {
+    throw new Error("Failed to fetch advocates");
+  }
+  return response.json();
+}
 
-    const response = await fetch(`/api/advocates?${params}`);
-    const { data, pagination } = await response.json();
-    setAdvocates(data);
-    setPagination(pagination);
-  }, []);
+export function useAdvocates(searchTerm: string, page: number = 1): AdvocatesQueryResult {
+  const { data, isLoading, isError } = useQuery({
+    queryKey: ["advocates", searchTerm, page],
+    queryFn: () => getAdvocates(searchTerm, page),
+  });
 
-  useEffect(() => {
-    fetchAdvocates(searchTerm, page);
-  }, [fetchAdvocates, searchTerm, page]);
-
-  return { advocates, pagination };
+  return {
+    advocates: data?.data ?? [],
+    pagination: data?.pagination ?? DEFAULT_PAGINATION,
+    isLoading,
+    isError,
+  };
 }

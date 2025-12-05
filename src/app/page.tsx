@@ -3,7 +3,7 @@
 import { ChangeEvent } from "react";
 import { useQueryState, parseAsInteger, parseAsString } from "nuqs";
 import { Pagination } from "@/app/components/Pagination";
-import { AdvocatesTable } from "@/app/components/AdvocateTable";
+import { AdvocateList } from "@/app/components/AdvocateList";
 import { SearchInput } from "@/app/components/SearchInput";
 import { useAdvocates } from "../hooks/useAdvocates";
 import { useDebounce } from "../hooks/useDebounce";
@@ -27,7 +27,7 @@ export default function Home() {
 
   return (
     <main>
-      <div className="flex items-end justify-between mb-6">
+      <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-6">
         <SearchInput
           value={searchTerm}
           onChange={onSearchTermChange} 
@@ -40,7 +40,7 @@ export default function Home() {
           onPageChange={setCurrentPage}
         />
       </div>
-      <AdvocatesTable advocates={advocates} />
+      <AdvocateList advocates={advocates} />
     </main>
   );
 }

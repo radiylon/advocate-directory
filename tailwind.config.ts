@@ -41,10 +41,6 @@ const config: Config = {
         accent: palette.gold[500],
         background: palette.white,
         foreground: palette.green[700],
-        text: {
-          primary: 'black',
-          secondary: 'gray',
-        },
       },
     },
   },
@@ -52,7 +48,7 @@ const config: Config = {
     plugin(function ({ addBase, addUtilities }) {
       addBase({
         body: {
-          backgroundColor: palette.white,
+          backgroundColor: "#FFFFFF",
           color: palette.green[700],
         },
       });

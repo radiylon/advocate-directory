@@ -31,8 +31,8 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${lato.variable} ${mollieGlaston.variable} font-sans`}>
         <Providers>
-          <div className="p-6">
-            <h1 className="mb-6 text-3xl font-normal font-display">Solace Advocates</h1>
+          <div className="mx-auto max-w-6xl p-6">
+            <h1 className="mb-6 text-3xl font-normal font-display text-center">Solace Advocates</h1>
             {children}
           </div>
         </Providers>

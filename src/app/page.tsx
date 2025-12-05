@@ -1,18 +1,23 @@
 "use client";
 
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, Suspense } from "react";
+import { useQueryState, parseAsInteger, parseAsString } from "nuqs";
 import { useAdvocates } from "@/hooks/useAdvocates";
+import { Pagination } from "@/app/components/Pagination";
 
-export default function Home() {
-  const [searchTerm, setSearchTerm] = useState("");
-  const advocates = useAdvocates(searchTerm);
+function AdvocateDirectory() {
+  const [searchTerm, setSearchTerm] = useQueryState("search", parseAsString.withDefault(""));
+  const [currentPage, setCurrentPage] = useQueryState("page", parseAsInteger.withDefault(1));
+  const { advocates, pagination } = useAdvocates(searchTerm, currentPage);
 
   const onSearchTermChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);
+    setCurrentPage(1);
   };
 
   const resetSearch = () => {
     setSearchTerm("");
+    setCurrentPage(1);
   };
 
   return (
@@ -28,6 +33,12 @@ export default function Home() {
         <input style={{ border: "1px solid black" }} value={searchTerm} onChange={onSearchTermChange} />
         <button onClick={resetSearch}>Reset Search</button>
       </div>
+      <Pagination
+        currentPage={currentPage}
+        totalPages={pagination.totalPages}
+        totalCount={pagination.totalCount}
+        onPageChange={setCurrentPage}
+      />
       <br />
       <br />
       <table>
@@ -63,5 +74,13 @@ export default function Home() {
         </tbody>
       </table>
     </main>
+  );
+}
+
+export default function Home() {
+  return (
+    <Suspense fallback={<div style={{ margin: "24px" }}>Loading...</div>}>
+      <AdvocateDirectory />
+    </Suspense>
   );
 }

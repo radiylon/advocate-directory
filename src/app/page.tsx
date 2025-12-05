@@ -15,7 +15,7 @@ export default function Home() {
   const [currentPage, setCurrentPage] = useQueryState("page", parseAsInteger.withDefault(1));
 
   const debouncedSearch = useDebounce(searchTerm, SEARCH_DEBOUNCE_MS);
-  const { advocates, pagination, isLoading, isError } = useAdvocates(debouncedSearch, currentPage);
+  const { advocates, pagination } = useAdvocates(debouncedSearch, currentPage);
 
   const onSearchTermChange = (e: ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(e.target.value);

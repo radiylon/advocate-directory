@@ -21,7 +21,7 @@ export function AdvocateCard({ advocate }: AdvocateCardProps) {
           <div className="font-normal text-primary italic text-lg">{advocate.yearsOfExperience}+ years of experience</div>
         </div>
         <div className="shrink-0 flex flex-col items-end text-base text-gray-700">
-          <span className="text-black font-bold text-lg">{advocate.city}</span>
+          <span className="text-black font-bold text-lg">{advocate.city}, {advocate.state}</span>
           <span className="text-gray-700">{advocate.phoneNumber}</span>
         </div>
       </div>

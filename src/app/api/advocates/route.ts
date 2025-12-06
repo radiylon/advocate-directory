@@ -1,15 +1,16 @@
 import { count, ilike, or, sql } from "drizzle-orm";
 import db from "../../../db";
-import { advocates } from "../../../db/schema";
+import { advocatesSchema } from "../../../db/schema";
 
 function buildSearchWhereClause(search: string) {
   return or(
-    ilike(advocates.firstName, `%${search}%`),
-    ilike(advocates.lastName, `%${search}%`),
-    ilike(advocates.city, `%${search}%`),
-    ilike(advocates.degree, `%${search}%`),
-    sql`${advocates.specialties}::text ILIKE ${"%" + search + "%"}`,
-    sql`${advocates.yearsOfExperience}::text ILIKE ${"%" + search + "%"}`
+    ilike(advocatesSchema.firstName, `%${search}%`),
+    ilike(advocatesSchema.lastName, `%${search}%`),
+    ilike(advocatesSchema.city, `%${search}%`),
+    ilike(advocatesSchema.state, `%${search}%`),
+    ilike(advocatesSchema.degree, `%${search}%`),
+    sql`${advocatesSchema.specialties}::text ILIKE ${"%" + search + "%"}`,
+    sql`${advocatesSchema.yearsOfExperience}::text ILIKE ${"%" + search + "%"}`
   );
 }
 
@@ -24,13 +25,13 @@ export async function GET(request: Request) {
     const whereClause = search ? buildSearchWhereClause(search) : undefined;
 
     // Build data query
-    const baseDataQuery = db.select().from(advocates);
+    const baseDataQuery = db.select().from(advocatesSchema);
     const dataQuery = whereClause
       ? baseDataQuery.where(whereClause).limit(limit).offset(offset)
       : baseDataQuery.limit(limit).offset(offset);
 
     // Build count query
-    const baseCountQuery = db.select({ count: count() }).from(advocates);
+    const baseCountQuery = db.select({ count: count() }).from(advocatesSchema);
     const countQuery = whereClause ? baseCountQuery.where(whereClause) : baseCountQuery;
 
     // Get paginated data and total count in parallel

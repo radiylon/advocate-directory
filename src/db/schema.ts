@@ -9,18 +9,19 @@ import {
   bigint,
 } from "drizzle-orm/pg-core";
 
-const advocates = pgTable("advocates", {
+const advocatesSchema = pgTable("advocates", {
   id: serial("id").primaryKey(),
   firstName: text("first_name").notNull(),
   lastName: text("last_name").notNull(),
   city: text("city").notNull(),
+  state: text("state").notNull(),
   degree: text("degree").notNull(),
-  specialties: jsonb("payload").$type<string[]>().default([]).notNull(),
+  specialties: jsonb("specialties").$type<string[]>().default([]).notNull(),
   yearsOfExperience: integer("years_of_experience").notNull(),
-  phoneNumber: bigint("phone_number", { mode: "number" }).notNull(),
+  phoneNumber: text("phone_number").notNull(),
   createdAt: timestamp("created_at").default(sql`CURRENT_TIMESTAMP`),
 });
 
-export type Advocate = InferSelectModel<typeof advocates>;
+export type Advocate = InferSelectModel<typeof advocatesSchema>;
 
-export { advocates };
+export { advocatesSchema };

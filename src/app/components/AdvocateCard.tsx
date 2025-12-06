@@ -6,14 +6,6 @@ interface AdvocateCardProps {
   advocate: Advocate;
 }
 
-function formatPhoneNumber(phone: number): string {
-  const phoneStr = phone.toString();
-  if (phoneStr.length === 10) {
-    return `(${phoneStr.slice(0, 3)}) ${phoneStr.slice(3, 6)}-${phoneStr.slice(6)}`;
-  }
-  return phoneStr;
-}
-
 export function AdvocateCard({ advocate }: AdvocateCardProps) {
   const visibleSpecialties = advocate.specialties.slice(0, MAX_VISIBLE_SPECIALTIES);
   const remainingCount = advocate.specialties.length - MAX_VISIBLE_SPECIALTIES;
@@ -30,7 +22,7 @@ export function AdvocateCard({ advocate }: AdvocateCardProps) {
         </div>
         <div className="shrink-0 flex flex-col items-end text-base text-gray-700">
           <span className="text-black font-bold text-lg">{advocate.city}</span>
-          <span className="text-gray-700">{formatPhoneNumber(advocate.phoneNumber)}</span>
+          <span className="text-gray-700">{advocate.phoneNumber}</span>
         </div>
       </div>
 

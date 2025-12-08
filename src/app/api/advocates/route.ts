@@ -1,8 +1,8 @@
-import { and, asc, count, eq, ilike, or, sql } from "drizzle-orm";
-import db from "../../../db";
-import { advocatesSchema } from "../../../db/schema";
+import { and, asc, count, eq, ilike, or, sql, SQL } from "drizzle-orm";
+import db from "@/db";
+import { advocatesSchema } from "@/db/schema";
 
-function buildSearchWhereClause(search: string) {
+function buildSearchWhereClause(search: string): SQL | undefined {
   return or(
     // Search in full name (first + last name concatenated)
     sql`(${advocatesSchema.firstName} || ' ' || ${advocatesSchema.lastName}) ILIKE ${"%" + search + "%"}`,
@@ -18,11 +18,12 @@ interface FilterParams {
   state?: string;
 }
 
-function buildFilterConditions(params: FilterParams) {
-  const conditions = [];
+function buildFilterConditions(params: FilterParams): SQL | undefined {
+  const conditions: SQL[] = [];
 
   if (params.search) {
-    conditions.push(buildSearchWhereClause(params.search));
+    const searchClause = buildSearchWhereClause(params.search);
+    if (searchClause) conditions.push(searchClause);
   }
 
   if (params.state) {

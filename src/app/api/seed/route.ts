@@ -1,6 +1,6 @@
-import db from "../../../db";
-import { advocatesSchema } from "../../../db/schema";
-import { createAdvocatesData } from "../../../db/seed/advocates";
+import db from "@/db";
+import { advocatesSchema } from "@/db/schema";
+import { createAdvocatesData } from "@/db/seed/advocates";
 
 const DEFAULT_COUNT = 100_000;
 

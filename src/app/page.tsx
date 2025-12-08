@@ -7,8 +7,8 @@ import { AdvocateList } from "@/app/components/AdvocateList";
 import { SearchInput } from "@/app/components/SearchInput";
 import { Select } from "@/app/components/Select";
 import { StatusMessage } from "@/app/components/StatusMessage";
-import { useAdvocates } from "../hooks/useAdvocates";
-import { useDebounce } from "../hooks/useDebounce";
+import { useAdvocates } from "@/hooks/useAdvocates";
+import { useDebounce } from "@/hooks/useDebounce";
 import { US_STATES } from "@/lib/constants";
 
 const SEARCH_DEBOUNCE_MS = 300;
@@ -27,17 +27,17 @@ export default function Home() {
     currentPage
   );
 
-  const onSearchTermChange = (e: ChangeEvent<HTMLInputElement>) => {
+  const onSearchTermChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setSearchTerm(e.target.value);
     setCurrentPage(1);
   };
 
-  const handleStateChange = (value: string) => {
+  const handleStateChange = (value: string): void => {
     setStateFilter(value);
     setCurrentPage(1);
   };
 
-  const resetFilters = () => {
+  const resetFilters = (): void => {
     setSearchTerm("");
     setStateFilter("");
     setCurrentPage(1);

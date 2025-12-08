@@ -5,7 +5,7 @@ interface PaginationProps {
 }
 
 export function Pagination({ currentPage, totalPages, onPageChange }: PaginationProps) {
-  const isVisible = `${totalPages === 0 ? 'invisible' : ''}`;
+  const isVisible = `${totalPages <= 1 ? 'invisible' : ''}`;
   
   return (
     <div className={`${isVisible} mt-0 md:mt-6 flex flex-col sm:flex-row items-center gap-2 sm:gap-4 text-black`}>

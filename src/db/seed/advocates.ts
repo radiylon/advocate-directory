@@ -39,7 +39,7 @@ function createRandomAdvocate(): RandomAdvocate {
     firstName: faker.person.firstName(),
     lastName: faker.person.lastName(),
     city: faker.location.city(),
-    state: faker.location.state(),
+    state: faker.location.state({ abbreviated: true }),
     degree: faker.helpers.arrayElement(degrees),
     specialties: faker.helpers.arrayElements(specialties, { min: 1, max: 15 }),
     yearsOfExperience: faker.number.int({ min: 1, max: 30 }),
@@ -47,7 +47,7 @@ function createRandomAdvocate(): RandomAdvocate {
   };
 }
 
-function createAdvocatesData(count: number = 100): RandomAdvocate[] {
+function createAdvocatesData(count: number = 100_000): RandomAdvocate[] {
   return Array.from({ length: count }, createRandomAdvocate);
 }
 

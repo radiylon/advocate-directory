@@ -5,6 +5,7 @@ import { useQueryState, parseAsInteger, parseAsString } from "nuqs";
 import { Pagination } from "@/app/components/Pagination";
 import { AdvocateList } from "@/app/components/AdvocateList";
 import { SearchInput } from "@/app/components/SearchInput";
+import { StatusMessage } from "@/app/components/StatusMessage";
 import { useAdvocates } from "../hooks/useAdvocates";
 import { useDebounce } from "../hooks/useDebounce";
 
@@ -38,10 +39,10 @@ export default function Home() {
         <Pagination
           currentPage={currentPage}
           totalPages={pagination.totalPages}
-          totalCount={pagination.totalCount}
           onPageChange={setCurrentPage}
         />
       </div>
+      <StatusMessage searchTerm={searchTerm} currentPage={currentPage} />
       <AdvocateList advocates={advocates} />
     </main>
   );

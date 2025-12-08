@@ -1,4 +1,4 @@
-import { useQuery } from "@tanstack/react-query";
+import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import { Advocate } from "@/db/schema";
 
 interface Pagination {
@@ -15,9 +15,11 @@ interface AdvocatesQueryResult {
   isError: boolean;
 }
 
+const DEFAULT_LIMIT = 100;
+
 const DEFAULT_PAGINATION: Pagination = {
   page: 1,
-  limit: 20,
+  limit: DEFAULT_LIMIT,
   totalPages: 1,
   totalCount: 0,
 };
@@ -25,8 +27,8 @@ const DEFAULT_PAGINATION: Pagination = {
 async function getAdvocates(search: string, currentPage: number) {
   const params = new URLSearchParams();
   if (search) params.set("search", search);
-  params.set("page", String(currentPage));
-  params.set("limit", "20");
+  params.set("page", currentPage.toString());
+  params.set("limit", DEFAULT_LIMIT.toString());
 
   const response = await fetch(`/api/advocates?${params}`);
   if (!response.ok) {
@@ -39,6 +41,7 @@ export function useAdvocates(searchTerm: string, page: number = 1): AdvocatesQue
   const { data, isLoading, isError } = useQuery({
     queryKey: ["advocates", searchTerm, page],
     queryFn: () => getAdvocates(searchTerm, page),
+    placeholderData: keepPreviousData,
   });
 
   return {

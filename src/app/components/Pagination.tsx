@@ -22,15 +22,15 @@ export function Pagination({
         >
           Prev
         </Button>
+        <span className="text-sm sm:text-base">
+          Page {currentPage} of {totalPages.toLocaleString()}
+        </span>
         <Button
           onClick={() => onPageChange(currentPage + 1)}
           disabled={currentPage === totalPages}
         >
           Next
         </Button>
-        <span className="text-sm sm:text-base">
-          Page {currentPage} of {totalPages.toLocaleString()}
-        </span>
       </div>
     </div>
   );

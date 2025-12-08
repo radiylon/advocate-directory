@@ -4,14 +4,12 @@ import { advocatesSchema } from "../../../db/schema";
 
 function buildSearchWhereClause(search: string) {
   return or(
-    // Search firstName, lastName, city (case-insensitive)
-    ilike(advocatesSchema.firstName, `%${search}%`),
-    ilike(advocatesSchema.lastName, `%${search}%`),
+    // Search in full name (first + last name concatenated)
+    sql`(${advocatesSchema.firstName} || ' ' || ${advocatesSchema.lastName}) ILIKE ${"%" + search + "%"}`,
+    // Search city (case-insensitive)
     ilike(advocatesSchema.city, `%${search}%`),
     // Search in specialties array (cast to text for pattern matching)
-    sql`${advocatesSchema.specialties}::text ILIKE ${"%" + search + "%"}`,
-    // Search in full name (first + last name concatenated)
-    sql`(${advocatesSchema.firstName} || ' ' || ${advocatesSchema.lastName}) ILIKE ${"%" + search + "%"}`
+    sql`${advocatesSchema.specialties}::text ILIKE ${"%" + search + "%"}`
   );
 }
 

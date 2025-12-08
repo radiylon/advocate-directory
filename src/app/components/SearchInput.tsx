@@ -14,7 +14,7 @@ export function SearchInput({ value, onChange, onReset, children }: SearchInputP
         className="border border-black px-3 py-2 rounded w-full md:w-96"
         value={value}
         onChange={onChange}
-        placeholder="Search advocates..."
+        placeholder="Search by name, city, or specialty"
       />
       {children}
       <button

@@ -1,91 +1,73 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { ChangeEvent } from "react";
+import { useQueryState, parseAsInteger, parseAsString } from "nuqs";
+import { Pagination } from "@/app/components/Pagination";
+import { AdvocateList } from "@/app/components/AdvocateList";
+import { SearchInput } from "@/app/components/SearchInput";
+import { Select } from "@/app/components/Select";
+import { StatusMessage } from "@/app/components/StatusMessage";
+import { useAdvocates } from "@/app/hooks/useAdvocates";
+import { useDebounce } from "@/app/hooks/useDebounce";
+import { US_STATES } from "@/lib/constants";
+
+const SEARCH_DEBOUNCE_MS = 300;
 
 export default function Home() {
-  const [advocates, setAdvocates] = useState([]);
-  const [filteredAdvocates, setFilteredAdvocates] = useState([]);
+  const [searchTerm, setSearchTerm] = useQueryState("search", parseAsString.withDefault(""));
+  const [stateFilter, setStateFilter] = useQueryState("state", parseAsString.withDefault(""));
+  const [currentPage, setCurrentPage] = useQueryState("page", parseAsInteger.withDefault(1));
 
-  useEffect(() => {
-    console.log("fetching advocates...");
-    fetch("/api/advocates").then((response) => {
-      response.json().then((jsonResponse) => {
-        setAdvocates(jsonResponse.data);
-        setFilteredAdvocates(jsonResponse.data);
-      });
-    });
-  }, []);
+  const debouncedSearch = useDebounce(searchTerm, SEARCH_DEBOUNCE_MS);
+  const { advocates, pagination, isLoading } = useAdvocates(
+    {
+      search: debouncedSearch,
+      state: stateFilter,
+    },
+    currentPage
+  );
 
-  const onChange = (e) => {
-    const searchTerm = e.target.value;
-
-    document.getElementById("search-term").innerHTML = searchTerm;
-
-    console.log("filtering advocates...");
-    const filteredAdvocates = advocates.filter((advocate) => {
-      return (
-        advocate.firstName.includes(searchTerm) ||
-        advocate.lastName.includes(searchTerm) ||
-        advocate.city.includes(searchTerm) ||
-        advocate.degree.includes(searchTerm) ||
-        advocate.specialties.includes(searchTerm) ||
-        advocate.yearsOfExperience.includes(searchTerm)
-      );
-    });
-
-    setFilteredAdvocates(filteredAdvocates);
+  const onSearchTermChange = (e: ChangeEvent<HTMLInputElement>): void => {
+    setSearchTerm(e.target.value);
+    setCurrentPage(1);
   };
 
-  const onClick = () => {
-    console.log(advocates);
-    setFilteredAdvocates(advocates);
+  const handleStateChange = (value: string): void => {
+    setStateFilter(value);
+    setCurrentPage(1);
+  };
+
+  const resetFilters = (): void => {
+    setSearchTerm("");
+    setStateFilter("");
+    setCurrentPage(1);
   };
 
   return (
-    <main style={{ margin: "24px" }}>
-      <h1>Solace Advocates</h1>
-      <br />
-      <br />
-      <div>
-        <p>Search</p>
-        <p>
-          Searching for: <span id="search-term"></span>
-        </p>
-        <input style={{ border: "1px solid black" }} onChange={onChange} />
-        <button onClick={onClick}>Reset Search</button>
+    <main>
+      <div className="flex flex-col items-center lg:flex-row lg:items-end lg:justify-between gap-4 mb-6">
+        <SearchInput
+          value={searchTerm}
+          onChange={onSearchTermChange}
+          onReset={resetFilters}
+        >
+          <Select
+            label="State"
+            value={stateFilter}
+            options={US_STATES}
+            onChange={handleStateChange}
+          />
+        </SearchInput>
+        {!isLoading && (
+          <Pagination
+            currentPage={currentPage}
+            totalPages={pagination.totalPages}
+            onPageChange={setCurrentPage}
+          />
+        )}
       </div>
-      <br />
-      <br />
-      <table>
-        <thead>
-          <th>First Name</th>
-          <th>Last Name</th>
-          <th>City</th>
-          <th>Degree</th>
-          <th>Specialties</th>
-          <th>Years of Experience</th>
-          <th>Phone Number</th>
-        </thead>
-        <tbody>
-          {filteredAdvocates.map((advocate) => {
-            return (
-              <tr>
-                <td>{advocate.firstName}</td>
-                <td>{advocate.lastName}</td>
-                <td>{advocate.city}</td>
-                <td>{advocate.degree}</td>
-                <td>
-                  {advocate.specialties.map((s) => (
-                    <div>{s}</div>
-                  ))}
-                </td>
-                <td>{advocate.yearsOfExperience}</td>
-                <td>{advocate.phoneNumber}</td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+      <StatusMessage isLoading={isLoading} totalCount={pagination.totalCount} />
+      <AdvocateList advocates={advocates} />
     </main>
   );
 }

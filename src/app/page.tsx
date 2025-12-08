@@ -45,7 +45,7 @@ export default function Home() {
 
   return (
     <main>
-      <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-6">
+      <div className="flex flex-col items-center lg:flex-row lg:items-end lg:justify-between gap-4 mb-6">
         <SearchInput
           value={searchTerm}
           onChange={onSearchTermChange}

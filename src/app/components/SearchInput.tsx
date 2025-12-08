@@ -15,15 +15,17 @@ export function SearchInput({
   children,
 }: SearchInputProps): JSX.Element {
   return (
-    <div className="text-black flex flex-wrap items-end gap-2">
+    <div className="text-black flex flex-col md:flex-row md:flex-wrap items-center md:items-end gap-2 mb-4 md:mb-0">
       <input
-        className="border border-black px-3 py-2 rounded w-full md:w-96"
+        className="border border-black px-3 py-2 rounded w-80 md:w-96"
         value={value}
         onChange={onChange}
         placeholder="Search by name, city, or specialty"
       />
-      {children}
-      <Button onClick={onReset}>Reset</Button>
+      <div className="flex items-end gap-2">
+        {children}
+        <Button onClick={onReset}>Reset</Button>
+      </div>
     </div>
   );
 }

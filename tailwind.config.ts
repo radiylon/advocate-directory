@@ -8,18 +8,24 @@ const palette = {
     800: "#1E4A3E",
   },
   white: "#F8F9F9",
-  sage: {
-    300: "#ABC7B9",
-  },
   gold: {
     500: "#D8A33B",
-  },
-  brown: {
-    600: "#916248",
   },
   teal: {
     500: "#74B4A4",
   },
+};
+
+// Tag colors for specialty badges
+const tagColors = {
+  sage: { bg: "#E8F0ED", text: "#2A6254" },    
+  sky: { bg: "#E3F1F9", text: "#1E6091" },     
+  lavender: { bg: "#EDE8F5", text: "#5B4B8A" },
+  peach: { bg: "#FBE9E4", text: "#9E4A35" },   
+  honey: { bg: "#F9F0DC", text: "#8B6914" },   
+  mint: { bg: "#E2F5F0", text: "#1D7A64" },    
+  rose: { bg: "#F9E8EC", text: "#A14462" },    
+  sand: { bg: "#F5F0E6", text: "#6B5D45" },    
 };
 
 const config: Config = {
@@ -41,6 +47,7 @@ const config: Config = {
         accent: palette.gold[500],
         background: palette.white,
         foreground: palette.green[700],
+        tag: tagColors,
       },
     },
   },

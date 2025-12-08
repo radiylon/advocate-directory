@@ -1,4 +1,5 @@
 import { Advocate } from "@/db/schema";
+import { SpecialtyTag } from "./SpecialtyTag";
 
 const MAX_VISIBLE_SPECIALTIES = 3;
 
@@ -11,7 +12,7 @@ export function AdvocateCard({ advocate }: AdvocateCardProps) {
   const remainingCount = advocate.specialties.length - MAX_VISIBLE_SPECIALTIES;
 
   return (
-    <div className="rounded-lg border border-primary/20 bg-white p-4 transition-shadow hover:border-primary/40 hover:shadow-md cursor-pointer">
+    <div className="rounded-lg border border-primary/20 bg-white p-4 hover:border-primary hover:shadow-md cursor-pointer">
       <div className="flex items-start justify-between gap-4">
         <div className="flex flex-col">
           <h3 className="text-xl font-semibold text-black">
@@ -28,12 +29,7 @@ export function AdvocateCard({ advocate }: AdvocateCardProps) {
 
       <div className="mt-3 flex flex-wrap gap-2">
         {visibleSpecialties.map((specialty) => (
-          <span
-            key={specialty}
-            className="rounded-full bg-secondary/20 px-3 py-1 text-sm text-primary"
-          >
-            {specialty}
-          </span>
+          <SpecialtyTag key={specialty} specialty={specialty} />
         ))}
         {remainingCount > 0 && (
           <span className="rounded-full bg-gray-100 px-3 py-1 text-sm text-gray-600">

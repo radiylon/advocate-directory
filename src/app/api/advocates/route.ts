@@ -1,31 +1,50 @@
-import { count, ilike, or, sql } from "drizzle-orm";
-import db from "../../../db";
-import { advocatesSchema } from "../../../db/schema";
+import { and, asc, count, eq, ilike, or, sql, SQL } from "drizzle-orm";
+import db from "@/db";
+import { advocatesSchema } from "@/db/schema";
+import { FilterParams } from "@/types";
 
-function buildSearchWhereClause(search: string) {
+function buildSearchWhereClause(search: string): SQL | undefined {
   return or(
-    ilike(advocatesSchema.firstName, `%${search}%`),
-    ilike(advocatesSchema.lastName, `%${search}%`),
+    // Search in full name (first + last name concatenated)
+    sql`(${advocatesSchema.firstName} || ' ' || ${advocatesSchema.lastName}) ILIKE ${"%" + search + "%"}`,
+    // Search city (case-insensitive)
     ilike(advocatesSchema.city, `%${search}%`),
-    ilike(advocatesSchema.state, `%${search}%`),
-    ilike(advocatesSchema.degree, `%${search}%`),
-    sql`${advocatesSchema.specialties}::text ILIKE ${"%" + search + "%"}`,
-    sql`${advocatesSchema.yearsOfExperience}::text ILIKE ${"%" + search + "%"}`
+    // Search in specialties array (cast to text for pattern matching)
+    sql`${advocatesSchema.specialties}::text ILIKE ${"%" + search + "%"}`
   );
+}
+
+function buildFilterConditions(params: FilterParams): SQL | undefined {
+  const conditions: SQL[] = [];
+
+  if (params.search) {
+    const searchClause = buildSearchWhereClause(params.search);
+    if (searchClause) conditions.push(searchClause);
+  }
+
+  if (params.state) {
+    conditions.push(eq(advocatesSchema.state, params.state));
+  }
+
+  return conditions.length > 0 ? and(...conditions) : undefined;
 }
 
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const search = searchParams.get("search")?.trim();
+    const state = searchParams.get("state")?.trim();
     const page = Math.max(1, parseInt(searchParams.get("page") || "1"));
-    const limit = Math.max(1, parseInt(searchParams.get("limit") || "20"));
+    const limit = Math.max(1, parseInt(searchParams.get("limit") || "100"));
     const offset = (page - 1) * limit;
 
-    const whereClause = search ? buildSearchWhereClause(search) : undefined;
+    const whereClause = buildFilterConditions({ search, state });
 
-    // Build data query
-    const baseDataQuery = db.select().from(advocatesSchema);
+    // Build data query with default sort by lastName A-Z
+    const baseDataQuery = db
+      .select()
+      .from(advocatesSchema)
+      .orderBy(asc(advocatesSchema.lastName), asc(advocatesSchema.firstName));
     const dataQuery = whereClause
       ? baseDataQuery.where(whereClause).limit(limit).offset(offset)
       : baseDataQuery.limit(limit).offset(offset);

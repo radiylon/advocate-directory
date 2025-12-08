@@ -1,21 +1,17 @@
-import { useAdvocates } from "@/hooks/useAdvocates";
-
 interface StatusMessageProps {
-  searchTerm: string;
-  currentPage: number;
+  isLoading: boolean;
+  totalCount: number;
 }
 
-export function StatusMessage({ searchTerm, currentPage }: StatusMessageProps) {
-  const { isLoading, pagination } = useAdvocates(searchTerm, currentPage);
-
+export function StatusMessage({ isLoading, totalCount }: StatusMessageProps) {
   let message: string;
-  
+
   if (isLoading) {
     message = "Loading...";
-  } else if (pagination.totalCount === 0) {
+  } else if (totalCount === 0) {
     message = "No advocates found";
   } else {
-    message = `Total: ${pagination.totalCount.toLocaleString()} results`;
+    message = `${totalCount.toLocaleString()} result${totalCount === 1 ? '' : 's'} found`;
   }
 
   return (

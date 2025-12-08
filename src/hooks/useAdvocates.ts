@@ -8,6 +8,11 @@ interface Pagination {
   totalCount: number;
 }
 
+export interface FilterParams {
+  search: string;
+  state: string;
+}
+
 interface AdvocatesQueryResult {
   advocates: Advocate[];
   pagination: Pagination;
@@ -24,9 +29,10 @@ const DEFAULT_PAGINATION: Pagination = {
   totalCount: 0,
 };
 
-async function getAdvocates(search: string, currentPage: number) {
+async function getAdvocates(filters: FilterParams, currentPage: number) {
   const params = new URLSearchParams();
-  if (search) params.set("search", search);
+  if (filters.search) params.set("search", filters.search);
+  if (filters.state) params.set("state", filters.state);
   params.set("page", currentPage.toString());
   params.set("limit", DEFAULT_LIMIT.toString());
 
@@ -37,10 +43,10 @@ async function getAdvocates(search: string, currentPage: number) {
   return response.json();
 }
 
-export function useAdvocates(searchTerm: string, page: number = 1): AdvocatesQueryResult {
+export function useAdvocates(filters: FilterParams, page: number = 1): AdvocatesQueryResult {
   const { data, isLoading, isError } = useQuery({
-    queryKey: ["advocates", searchTerm, page],
-    queryFn: () => getAdvocates(searchTerm, page),
+    queryKey: ["advocates", filters.search, filters.state, page],
+    queryFn: () => getAdvocates(filters, page),
     placeholderData: keepPreviousData,
   });
 

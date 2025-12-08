@@ -8,14 +8,8 @@ const palette = {
     800: "#1E4A3E",
   },
   white: "#F8F9F9",
-  sage: {
-    300: "#ABC7B9",
-  },
   gold: {
     500: "#D8A33B",
-  },
-  brown: {
-    600: "#916248",
   },
   teal: {
     500: "#74B4A4",

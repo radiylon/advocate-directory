@@ -1,17 +1,6 @@
 import { useQuery, keepPreviousData } from "@tanstack/react-query";
 import { Advocate } from "@/db/schema";
-
-interface Pagination {
-  page: number;
-  limit: number;
-  totalPages: number;
-  totalCount: number;
-}
-
-interface FilterParams {
-  search: string;
-  state: string;
-}
+import { Pagination, FilterParams } from "@/types";
 
 interface AdvocatesQueryResult {
   advocates: Advocate[];

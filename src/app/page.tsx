@@ -7,8 +7,8 @@ import { AdvocateList } from "@/app/components/AdvocateList";
 import { SearchInput } from "@/app/components/SearchInput";
 import { Select } from "@/app/components/Select";
 import { StatusMessage } from "@/app/components/StatusMessage";
-import { useAdvocates } from "@/hooks/useAdvocates";
-import { useDebounce } from "@/hooks/useDebounce";
+import { useAdvocates } from "@/app/hooks/useAdvocates";
+import { useDebounce } from "@/app/hooks/useDebounce";
 import { US_STATES } from "@/lib/constants";
 
 const SEARCH_DEBOUNCE_MS = 300;
@@ -58,11 +58,13 @@ export default function Home() {
             onChange={handleStateChange}
           />
         </SearchInput>
-        <Pagination
-          currentPage={currentPage}
-          totalPages={pagination.totalPages}
-          onPageChange={setCurrentPage}
-        />
+        {!isLoading && (
+          <Pagination
+            currentPage={currentPage}
+            totalPages={pagination.totalPages}
+            onPageChange={setCurrentPage}
+          />
+        )}
       </div>
       <StatusMessage isLoading={isLoading} totalCount={pagination.totalCount} />
       <AdvocateList advocates={advocates} />

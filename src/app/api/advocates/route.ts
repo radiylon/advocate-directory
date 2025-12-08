@@ -1,6 +1,7 @@
 import { and, asc, count, eq, ilike, or, sql, SQL } from "drizzle-orm";
 import db from "@/db";
 import { advocatesSchema } from "@/db/schema";
+import { FilterParams } from "@/types";
 
 function buildSearchWhereClause(search: string): SQL | undefined {
   return or(
@@ -11,11 +12,6 @@ function buildSearchWhereClause(search: string): SQL | undefined {
     // Search in specialties array (cast to text for pattern matching)
     sql`${advocatesSchema.specialties}::text ILIKE ${"%" + search + "%"}`
   );
-}
-
-interface FilterParams {
-  search?: string;
-  state?: string;
 }
 
 function buildFilterConditions(params: FilterParams): SQL | undefined {
@@ -39,7 +35,7 @@ export async function GET(request: Request) {
     const search = searchParams.get("search")?.trim();
     const state = searchParams.get("state")?.trim();
     const page = Math.max(1, parseInt(searchParams.get("page") || "1"));
-    const limit = Math.max(1, parseInt(searchParams.get("limit") || "20"));
+    const limit = Math.max(1, parseInt(searchParams.get("limit") || "100"));
     const offset = (page - 1) * limit;
 
     const whereClause = buildFilterConditions({ search, state });

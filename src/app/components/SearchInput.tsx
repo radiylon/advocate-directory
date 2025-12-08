@@ -1,4 +1,5 @@
 import { ChangeEvent, ReactNode } from "react";
+import { Button } from "./Button";
 
 interface SearchInputProps {
   value: string;
@@ -7,7 +8,12 @@ interface SearchInputProps {
   children?: ReactNode;
 }
 
-export function SearchInput({ value, onChange, onReset, children }: SearchInputProps) {
+export function SearchInput({
+  value,
+  onChange,
+  onReset,
+  children,
+}: SearchInputProps): JSX.Element {
   return (
     <div className="text-black flex flex-wrap items-end gap-2">
       <input
@@ -17,12 +23,7 @@ export function SearchInput({ value, onChange, onReset, children }: SearchInputP
         placeholder="Search by name, city, or specialty"
       />
       {children}
-      <button
-        onClick={onReset}
-        className="px-4 py-2 border border-black rounded hover:bg-gray-100"
-      >
-        Reset
-      </button>
+      <Button onClick={onReset}>Reset</Button>
     </div>
   );
 }

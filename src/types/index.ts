@@ -8,4 +8,7 @@ export interface Pagination {
 export interface FilterParams {
   search?: string;
   state?: string;
+  sort?: SortDirection;
 }
+
+export type SortDirection = 'asc' | 'desc';

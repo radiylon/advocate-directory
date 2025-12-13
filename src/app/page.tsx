@@ -1,12 +1,13 @@
 "use client";
 
 import { ChangeEvent } from "react";
-import { useQueryState, parseAsInteger, parseAsString } from "nuqs";
+import { useQueryState, parseAsInteger, parseAsString, parseAsStringLiteral } from "nuqs";
 import { Pagination } from "@/app/components/Pagination";
 import { AdvocateList } from "@/app/components/AdvocateList";
 import { SearchInput } from "@/app/components/SearchInput";
 import { Select } from "@/app/components/Select";
 import { StatusMessage } from "@/app/components/StatusMessage";
+import { SortButton } from "@/app/components/SortButton";
 import { useAdvocates } from "@/app/hooks/useAdvocates";
 import { useDebounce } from "@/app/hooks/useDebounce";
 import { US_STATES } from "@/lib/constants";
@@ -17,12 +18,14 @@ export default function Home() {
   const [searchTerm, setSearchTerm] = useQueryState("search", parseAsString.withDefault(""));
   const [stateFilter, setStateFilter] = useQueryState("state", parseAsString.withDefault(""));
   const [currentPage, setCurrentPage] = useQueryState("page", parseAsInteger.withDefault(1));
+  const [sortDirection, setSortDirection] = useQueryState("sort", parseAsStringLiteral(["asc", "desc"]).withDefault("asc"));
 
   const debouncedSearch = useDebounce(searchTerm, SEARCH_DEBOUNCE_MS);
   const { advocates, pagination, isLoading } = useAdvocates(
     {
       search: debouncedSearch,
       state: stateFilter,
+      sort: sortDirection
     },
     currentPage
   );
@@ -32,7 +35,7 @@ export default function Home() {
     setCurrentPage(1);
   };
 
-  const handleStateChange = (value: string): void => {
+  const onStageChange = (value: string): void => {
     setStateFilter(value);
     setCurrentPage(1);
   };
@@ -41,7 +44,10 @@ export default function Home() {
     setSearchTerm("");
     setStateFilter("");
     setCurrentPage(1);
+    setSortDirection("asc");
   };
+
+  const toggleSortDirection = () => setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
 
   return (
     <main>
@@ -51,12 +57,8 @@ export default function Home() {
           onChange={onSearchTermChange}
           onReset={resetFilters}
         >
-          <Select
-            label="State"
-            value={stateFilter}
-            options={US_STATES}
-            onChange={handleStateChange}
-          />
+          <Select label="State" value={stateFilter} options={US_STATES} onChange={onStageChange} />
+          <SortButton label="Name" sortDirection={sortDirection} onClick={toggleSortDirection} />
         </SearchInput>
         {!isLoading && (
           <Pagination

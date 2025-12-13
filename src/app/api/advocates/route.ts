@@ -1,7 +1,7 @@
-import { and, asc, count, eq, ilike, or, sql, SQL } from "drizzle-orm";
+import { and, asc, desc, count, eq, or, sql, SQL } from "drizzle-orm";
 import db from "@/db";
 import { advocatesSchema } from "@/db/schema";
-import { FilterParams } from "@/types";
+import { FilterParams, SortDirection } from "@/types";
 
 function buildSearchWhereClause(search: string): SQL | undefined {
   const searchPattern = `%${search}%`;
@@ -30,22 +30,34 @@ function buildFilterConditions(params: FilterParams): SQL | undefined {
   return conditions.length > 0 ? and(...conditions) : undefined;
 }
 
+function buildOrderByClause(sort: SortDirection = 'asc'): SQL[] {
+  if (sort === 'asc') {
+    return [asc(advocatesSchema.lastName), asc(advocatesSchema.firstName)];
+  }
+  return [desc(advocatesSchema.lastName), desc(advocatesSchema.firstName)];
+}
+
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const search = searchParams.get("search")?.trim();
     const state = searchParams.get("state")?.trim();
+    const sort = searchParams.get("sort")?.trim();
     const page = Math.max(1, parseInt(searchParams.get("page") || "1"));
     const limit = Math.max(1, parseInt(searchParams.get("limit") || "100"));
     const offset = (page - 1) * limit;
 
+    const sortDirection: SortDirection = sort === 'desc' ? 'desc' : 'asc';
+    const orderByClause = buildOrderByClause(sortDirection);
+
     const whereClause = buildFilterConditions({ search, state });
 
-    // Build data query with default sort by lastName A-Z
+    // Build data query with sort by lastName, firstName
     const baseDataQuery = db
       .select()
       .from(advocatesSchema)
-      .orderBy(asc(advocatesSchema.lastName), asc(advocatesSchema.firstName));
+      .orderBy(...orderByClause);
+
     const dataQuery = whereClause
       ? baseDataQuery.where(whereClause).limit(limit).offset(offset)
       : baseDataQuery.limit(limit).offset(offset);

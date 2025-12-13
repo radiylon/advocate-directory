@@ -2,6 +2,8 @@
 
 import { useState, useRef, useEffect } from "react";
 import { SelectOption, SelectOptionData } from "./SelectOption";
+import { ChevronIcon } from "./ChevronIcon";
+import { Button } from "./Button";
 
 interface SelectProps {
   label: string;
@@ -46,29 +48,17 @@ export function Select({
   return (
     <div className="flex flex-col gap-1 relative" ref={containerRef}>
       <label className="text-sm text-gray-600">{label}</label>
-      <button
+      <Button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="border border-black px-3 py-2 rounded bg-white text-black min-w-[160px] text-left flex justify-between items-center"
+        className="px-3 py-2 bg-white text-black min-w-[100px] text-left flex justify-between items-center"
       >
-        <span className={!value ? "text-gray-500" : ""}>{displayText}</span>
-        <svg
-          className={`w-4 h-4 ${isOpen ? "rotate-180" : ""}`}
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M19 9l-7 7-7-7"
-          />
-        </svg>
-      </button>
+        <span className="font-medium">{displayText}</span>
+        <ChevronIcon isOpen={isOpen} />
+      </Button>
 
       {isOpen && (
-        <div className="absolute top-full left-0 mt-1 w-64 max-h-60 overflow-y-auto bg-white border border-black rounded shadow-lg z-50">
+        <div className="absolute top-full left-0 mt-1 w-48 max-h-60 overflow-y-auto bg-white border border-black rounded shadow-lg z-50">
           <SelectOption
             option={{ value: "", label: placeholder }}
             isSelected={!value}

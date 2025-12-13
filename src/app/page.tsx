@@ -44,6 +44,7 @@ export default function Home() {
     setSearchTerm("");
     setStateFilter("");
     setCurrentPage(1);
+    setSortDirection("asc");
   };
 
   const toggleSortDirection = () => setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');

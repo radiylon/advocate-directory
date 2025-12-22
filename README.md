@@ -40,7 +40,7 @@ The app works locally using docker and PostgreSQL:
 docker compose up -d
 
 # Push schema to database
-pnpm drizzle-kit push
+npx drizzle-kit push
 
 # Seed with sample data
 curl -X POST http://localhost:3000/api/seed

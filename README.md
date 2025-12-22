@@ -2,11 +2,13 @@
 
 A searchable directory for finding health advocates with filtering, sorting, and pagination.
 
+https://github.com/user-attachments/assets/9471e28c-9946-4cd7-b709-ea8eb2bb7ddb
+
 ## Features
 
 - **Search** - Find advocates by name, city, or specialty
 - **Filter** - Filter by US state
-- **Sort** - Toggle ascending/descending by name
+- **Sort** - Toggle ascending/descending by last name, first name
 - **Pagination** - Browse through large datasets
 - **URL State** - Shareable filter links
 
@@ -15,7 +17,7 @@ A searchable directory for finding health advocates with filtering, sorting, and
 - **Framework**: Next.js 14, React 18, TypeScript
 - **Styling**: Tailwind CSS
 - **Database**: PostgreSQL, Drizzle ORM
-- **State**: TanStack React Query, nuqs
+- **State**: TanStack Query, nuqs
 
 ## Getting Started
 

@@ -21,6 +21,7 @@ async function getAdvocates(filters: FilterParams, currentPage: number): Promise
   const params = new URLSearchParams();
   if (filters.search) params.set("search", filters.search);
   if (filters.state) params.set("state", filters.state);
+  if (filters.sort) params.set("sort", filters.sort);
   params.set("page", currentPage.toString());
   params.set("limit", DEFAULT_LIMIT.toString());
 
@@ -33,7 +34,7 @@ async function getAdvocates(filters: FilterParams, currentPage: number): Promise
 
 export function useAdvocates(filters: FilterParams, page: number = 1): AdvocatesQueryResult {
   const { data, isLoading } = useQuery({
-    queryKey: ["advocates", filters.search, filters.state, page],
+    queryKey: ["advocates", filters.search, filters.state, filters.sort, page],
     queryFn: () => getAdvocates(filters, page),
     placeholderData: keepPreviousData,
   });

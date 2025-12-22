@@ -1,41 +1,45 @@
-## Solace Candidate Assignment
+# Advocate Directory
 
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+A searchable directory for finding health advocates with filtering, sorting, and pagination.
+
+## Features
+
+- **Search** - Find advocates by name, city, or specialty
+- **Filter** - Filter by US state
+- **Sort** - Toggle ascending/descending by name
+- **Pagination** - Browse through large datasets
+- **URL State** - Shareable filter links
+
+## Tech Stack
+
+- **Framework**: Next.js 14, React 18, TypeScript
+- **Styling**: Tailwind CSS
+- **Database**: PostgreSQL, Drizzle ORM
+- **State**: TanStack React Query, nuqs
 
 ## Getting Started
 
-Install dependencies
-
 ```bash
-npm i
+# Install dependencies
+pnpm install
+
+# Run development server
+pnpm dev
 ```
 
-Run the development server:
+Open [http://localhost:3000](http://localhost:3000) to view the app.
+
+## Database Setup
+
+The app works locally using docker and PostgreSQL:
 
 ```bash
-npm run dev
-```
-
-## Database set up
-
-The app is configured to return a default list of advocates. This will allow you to get the app up and running without needing to configure a database. If you’d like to configure a database, you’re encouraged to do so. You can uncomment the url in `.env` and the line in `src/app/api/advocates/route.ts` to test retrieving advocates from the database.
-
-1. Feel free to use whatever configuration of postgres you like. The project is set up to use docker-compose.yml to set up postgres. The url is in .env.
-
-```bash
+# Start PostgreSQL container
 docker compose up -d
-```
 
-This will create a `solaceassignment` database.
+# Push schema to database
+pnpm drizzle-kit push
 
-2. Push migration to the database
-
-```bash
-npx drizzle-kit push
-```
-
-3. Seed the database
-
-```bash
+# Seed with sample data
 curl -X POST http://localhost:3000/api/seed
 ```

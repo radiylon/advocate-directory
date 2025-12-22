@@ -18,8 +18,8 @@ const mollieGlaston = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Solace Advocates",
-  description: "A directory of Solace Health advocates",
+  title: "Advocate Directory",
+  description: "A directory of health advocates",
 };
 
 export default function RootLayout({
@@ -32,7 +32,7 @@ export default function RootLayout({
       <body className={`${lato.variable} ${mollieGlaston.variable} font-sans`}>
         <Providers>
           <div className="mx-auto max-w-6xl p-6">
-            <h1 className="mt-4 mb-6 text-4xl font-normal font-display text-center">Solace Advocates</h1>
+            <h1 className="mt-4 mb-6 text-4xl font-normal font-display text-center">Advocate Directory</h1>
             {children}
           </div>
         </Providers>

@@ -35,7 +35,9 @@ Open [http://localhost:3000](http://localhost:3000) to view the app.
 
 The app works locally using docker and PostgreSQL:
 
-```bash
+# Create .env file with database URL
+`DATABASE_URL=postgresql://postgres:password@localhost/advocate-directory`
+
 # Start PostgreSQL container
 docker compose up -d
 

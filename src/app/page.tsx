@@ -35,7 +35,7 @@ export default function HomePage() {
     setCurrentPage(1);
   };
 
-  const onStageChange = (value: string): void => {
+  const onStateChange = (value: string): void => {
     setStateFilter(value);
     setCurrentPage(1);
   };
@@ -57,7 +57,7 @@ export default function HomePage() {
           onChange={onSearchTermChange}
           onReset={resetFilters}
         >
-          <Select label="State" value={stateFilter} options={US_STATES} onChange={onStageChange} />
+          <Select label="State" value={stateFilter} options={US_STATES} onChange={onStateChange} />
           <SortButton label="Name" sortDirection={sortDirection} onClick={toggleSortDirection} />
         </SearchInput>
         {!isLoading && (

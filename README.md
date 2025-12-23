@@ -35,15 +35,14 @@ Open [http://localhost:3000](http://localhost:3000) to view the app.
 
 The app works locally using docker and PostgreSQL:
 
-# Create .env file with database URL
+### Create .env file with database URL
 `DATABASE_URL=postgresql://postgres:password@localhost/advocate-directory`
 
-# Start PostgreSQL container
-docker compose up -d
+### Start PostgreSQL container
+`docker compose up -d`
 
-# Push schema to database
-npx drizzle-kit push
+### Push schema to database
+`npx drizzle-kit push`
 
-# Seed with sample data
-curl -X POST http://localhost:3000/api/seed
-```
+### Seed with sample data
+`curl -X POST http://localhost:3000/api/seed`

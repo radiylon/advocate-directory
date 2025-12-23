@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Suspense } from "react";
 import { Lato } from "next/font/google";
 import localFont from "next/font/local";
+import { Analytics } from "@vercel/analytics/next";
 import { Providers } from "./components/Providers";
 import "./globals.css";
 
@@ -39,6 +40,7 @@ export default function RootLayout({
             </Suspense>
           </div>
         </Providers>
+        <Analytics />
       </body>
     </html>
   );

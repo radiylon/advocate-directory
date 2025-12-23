@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { Suspense } from "react";
 import { Lato } from "next/font/google";
 import localFont from "next/font/local";
 import { Providers } from "./components/Providers";
@@ -33,7 +34,9 @@ export default function RootLayout({
         <Providers>
           <div className="mx-auto max-w-6xl p-6">
             <h1 className="mt-4 mb-6 text-4xl font-normal font-display text-center">Advocate Directory</h1>
-            {children}
+            <Suspense fallback={<p className="text-lg text-center italic">Loading...</p>}>
+              {children}
+            </Suspense>
           </div>
         </Providers>
       </body>

@@ -14,7 +14,7 @@ import { US_STATES } from "@/lib/constants";
 
 const SEARCH_DEBOUNCE_MS = 300;
 
-export default function Home() {
+export default function HomePage() {
   const [searchTerm, setSearchTerm] = useQueryState("search", parseAsString.withDefault(""));
   const [stateFilter, setStateFilter] = useQueryState("state", parseAsString.withDefault(""));
   const [currentPage, setCurrentPage] = useQueryState("page", parseAsInteger.withDefault(1));

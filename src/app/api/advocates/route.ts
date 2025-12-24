@@ -4,14 +4,14 @@ import { advocatesSchema } from "@/db/schema";
 import { FilterParams, SortDirection } from "@/types";
 
 function buildSearchWhereClause(search: string): SQL | undefined {
-  const searchPattern = `%${search}%`;
+  const searchPattern = `%${search.toLowerCase()}%`;
   return or(
-    // Search in full name (first + last name concatenated)
-    sql`(${advocatesSchema.firstName} || ' ' || ${advocatesSchema.lastName}) ILIKE ${searchPattern}`,
+    // Search in full name (first + last name concatenated) - case insensitive
+    sql`LOWER(${advocatesSchema.firstName} || ' ' || ${advocatesSchema.lastName}) LIKE ${searchPattern}`,
     // Search city (case-insensitive)
-    sql`${advocatesSchema.city} ILIKE ${searchPattern}`,
-    // Search in specialties array (cast to text for pattern matching)
-    sql`${advocatesSchema.specialties}::text ILIKE ${searchPattern}`
+    sql`LOWER(${advocatesSchema.city}) LIKE ${searchPattern}`,
+    // Search in specialties JSON (stored as TEXT)
+    sql`LOWER(${advocatesSchema.specialties}) LIKE ${searchPattern}`
   );
 }
 

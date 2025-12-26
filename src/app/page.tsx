@@ -12,7 +12,7 @@ import { useAdvocates } from "@/app/hooks/useAdvocates";
 import { useDebounce } from "@/app/hooks/useDebounce";
 import { US_STATES } from "@/lib/constants";
 
-const SEARCH_DEBOUNCE_MS = 300;
+const SEARCH_DEBOUNCE_MS = 150;
 
 export default function HomePage() {
   const [searchTerm, setSearchTerm] = useQueryState("search", parseAsString.withDefault(""));

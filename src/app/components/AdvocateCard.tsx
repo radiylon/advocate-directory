@@ -16,7 +16,7 @@ export function AdvocateCard({ advocate }: AdvocateCardProps) {
     <div className="border border-primary/20 bg-white p-4 hover:border-primary hover:shadow-md cursor-pointer">
       <div className="flex items-start justify-between gap-4">
         <div className="flex items-start gap-3">
-          <Avatar firstName={advocate.firstName} lastName={advocate.lastName} size="lg" />
+          <Avatar firstName={advocate.firstName} lastName={advocate.lastName} />
           <div className="flex flex-col">
             <h3 className="text-xl font-semibold text-black">
               {advocate.firstName} {advocate.lastName}

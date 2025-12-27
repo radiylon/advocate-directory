@@ -1,32 +1,77 @@
 export const DEGREES = ["MD", "PhD", "MSW", "LCSW", "PsyD"];
 
+export const EXPERIENCE_RANGES = [
+  { value: "1-5", label: "1-5 years" },
+  { value: "6-10", label: "6-10 years" },
+  { value: "11-15", label: "11-15 years" },
+  { value: "16+", label: "16+ years" },
+];
+
 export const SPECIALTIES = [
-  { value: "Bipolar", label: "Bipolar" },
-  { value: "LGBTQ", label: "LGBTQ" },
-  { value: "Medication/Prescribing", label: "Medication/Prescribing" },
-  { value: "Suicide History/Attempts", label: "Suicide History/Attempts" },
-  { value: "General Mental Health (anxiety, depression, stress, grief, life transitions)", label: "General Mental Health" },
-  { value: "Men's issues", label: "Men's issues" },
-  { value: "Relationship Issues (family, friends, couple, etc)", label: "Relationship Issues" },
+  // Navigation & Care Coordination
+  { value: "Patient Navigation", label: "Patient Navigation" },
+  { value: "Care Coordination", label: "Care Coordination" },
+  { value: "Hospital Discharge Planning", label: "Hospital Discharge Planning" },
+  { value: "Treatment Decision Support", label: "Treatment Decision Support" },
+  { value: "Second Opinion Assistance", label: "Second Opinion Assistance" },
+  { value: "Crisis Intervention", label: "Crisis Intervention" },
+
+  // Insurance & Financial
+  { value: "Insurance Navigation", label: "Insurance Navigation" },
+  { value: "Medical Billing & Claims", label: "Medical Billing & Claims" },
+  { value: "Insurance Appeals & Denials", label: "Insurance Appeals & Denials" },
+  { value: "Disability Benefits", label: "Disability Benefits" },
+  { value: "Financial Assistance Programs", label: "Financial Assistance Programs" },
+
+  // Major Medical Conditions
+  { value: "Cancer", label: "Cancer" },
+  { value: "Heart Disease & Cardiovascular", label: "Heart Disease & Cardiovascular" },
+  { value: "Diabetes", label: "Diabetes" },
+  { value: "Kidney Disease", label: "Kidney Disease" },
+  { value: "Respiratory & COPD", label: "Respiratory & COPD" },
+  { value: "Neurological Conditions", label: "Neurological Conditions" },
+  { value: "Autoimmune Disorders", label: "Autoimmune Disorders" },
+  { value: "Chronic Pain Management", label: "Chronic Pain Management" },
+  { value: "HIV/AIDS", label: "HIV/AIDS" },
+  { value: "Rare & Orphan Diseases", label: "Rare & Orphan Diseases" },
+  { value: "Chronic Illness", label: "Chronic Illness" },
+
+  // Mental & Behavioral Health
+  { value: "Mental Health", label: "Mental Health" },
   { value: "Trauma & PTSD", label: "Trauma & PTSD" },
-  { value: "Personality disorders", label: "Personality disorders" },
-  { value: "Personal growth", label: "Personal growth" },
-  { value: "Substance use/abuse", label: "Substance use/abuse" },
-  { value: "Pediatrics", label: "Pediatrics" },
-  { value: "Women's issues (post-partum, infertility, family planning)", label: "Women's issues" },
-  { value: "Chronic pain", label: "Chronic pain" },
-  { value: "Weight loss & nutrition", label: "Weight loss & nutrition" },
-  { value: "Eating disorders", label: "Eating disorders" },
-  { value: "Diabetic Diet and nutrition", label: "Diabetic Diet and nutrition" },
-  { value: "Coaching (leadership, career, academic and wellness)", label: "Coaching" },
-  { value: "Life coaching", label: "Life coaching" },
-  { value: "Obsessive-compulsive disorders", label: "OCD" },
-  { value: "Neuropsychological evaluations & testing (ADHD testing)", label: "Neuropsych Testing" },
-  { value: "Attention and Hyperactivity (ADHD)", label: "ADHD" },
-  { value: "Sleep issues", label: "Sleep issues" },
-  { value: "Schizophrenia and psychotic disorders", label: "Schizophrenia" },
-  { value: "Learning disorders", label: "Learning disorders" },
-  { value: "Domestic abuse", label: "Domestic abuse" },
+  { value: "Bipolar Disorder", label: "Bipolar Disorder" },
+  { value: "ADHD", label: "ADHD" },
+  { value: "Substance Use & Addiction", label: "Substance Use & Addiction" },
+  { value: "Eating Disorders", label: "Eating Disorders" },
+  { value: "OCD", label: "OCD" },
+  { value: "Serious Mental Illness", label: "Serious Mental Illness" },
+
+  // Populations & Demographics
+  { value: "Elder Care & Aging", label: "Elder Care & Aging" },
+  { value: "Alzheimer's & Dementia", label: "Alzheimer's & Dementia" },
+  { value: "Pediatric Care", label: "Pediatric Care" },
+  { value: "Autism & Developmental Disabilities", label: "Autism & Developmental Disabilities" },
+  { value: "LGBTQ+ Healthcare", label: "LGBTQ+ Healthcare" },
+  { value: "Women's Health", label: "Women's Health" },
+  { value: "Men's Health", label: "Men's Health" },
+  { value: "Veterans Healthcare", label: "Veterans Healthcare" },
+  { value: "Caregiver Support", label: "Caregiver Support" },
+
+  // Reproductive & Maternal
+  { value: "Fertility & Reproductive Health", label: "Fertility & Reproductive Health" },
+  { value: "Pregnancy & Maternal Care", label: "Pregnancy & Maternal Care" },
+  { value: "Postpartum Support", label: "Postpartum Support" },
+
+  // End-of-Life Care
+  { value: "Palliative Care", label: "Palliative Care" },
+  { value: "Hospice Navigation", label: "Hospice Navigation" },
+  { value: "Advance Care Planning", label: "Advance Care Planning" },
+
+  // Wellness & Lifestyle
+  { value: "Wellness Coaching", label: "Wellness Coaching" },
+  { value: "Nutrition & Diet", label: "Nutrition & Diet" },
+  { value: "Weight Management", label: "Weight Management" },
+  { value: "Sleep Health", label: "Sleep Health" },
 ];
 
 const STATE_CODES = [

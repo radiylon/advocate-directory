@@ -10,7 +10,7 @@ export function Button({
   className = "",
   ...props
 }: ButtonProps): JSX.Element {
-  const baseClasses = "px-4 py-2 border border-black rounded";
+  const baseClasses = "px-4 py-2 border border-black";
   const stateClasses = disabled
     ? "cursor-not-allowed opacity-50 bg-gray-200"
     : "cursor-pointer hover:bg-gray-100";

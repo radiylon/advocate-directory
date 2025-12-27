@@ -58,7 +58,7 @@ export function Select({
       </Button>
 
       {isOpen && (
-        <div className="absolute top-full left-0 mt-1 w-48 max-h-60 overflow-y-auto bg-white border border-black rounded shadow-lg z-50">
+        <div className="absolute top-full left-0 mt-1 w-48 max-h-60 overflow-y-auto bg-white border border-black shadow-lg z-50">
           <SelectOption
             option={{ value: "", label: placeholder }}
             isSelected={!value}

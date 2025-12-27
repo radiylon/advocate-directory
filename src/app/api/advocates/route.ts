@@ -44,7 +44,7 @@ export async function GET(request: Request) {
     const state = searchParams.get("state")?.trim();
     const sort = searchParams.get("sort")?.trim();
     const page = Math.max(1, parseInt(searchParams.get("page") || "1"));
-    const limit = Math.max(1, parseInt(searchParams.get("limit") || "100"));
+    const limit = Math.max(1, parseInt(searchParams.get("limit") || "20"));
     const offset = (page - 1) * limit;
 
     const sortDirection: SortDirection = sort === 'desc' ? 'desc' : 'asc';

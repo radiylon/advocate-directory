@@ -5,6 +5,9 @@ import { createAdvocatesData } from "@/db/seed/advocates";
 const DEFAULT_COUNT = 100_000;
 
 export async function POST(request: Request) {
+  if (process.env.NODE_ENV !== "development") {
+    return Response.json({ error: "Not available in production" }, { status: 403 });
+  }
   const { searchParams } = new URL(request.url);
   const paramsCount = searchParams.get("count");
   const count = paramsCount ? parseInt(paramsCount) : DEFAULT_COUNT;

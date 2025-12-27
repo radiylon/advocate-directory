@@ -1,4 +1,5 @@
-import { useQuery, keepPreviousData } from "@tanstack/react-query";
+import { useQuery, useQueryClient, keepPreviousData } from "@tanstack/react-query";
+import { useCallback } from "react";
 import { Advocate } from "@/db/schema";
 import { Pagination, FilterParams } from "@/types";
 
@@ -17,6 +18,10 @@ const DEFAULT_PAGINATION: Pagination = {
   totalCount: 0,
 };
 
+function getAdvocatesQueryKey(filters: FilterParams, page: number) {
+  return ["advocates", filters.search, filters.state, filters.sort, page] as const;
+}
+
 async function getAdvocates(filters: FilterParams, currentPage: number): Promise<{ data: Advocate[]; pagination: Pagination }> {
   const params = new URLSearchParams();
   if (filters.search) params.set("search", filters.search);
@@ -34,7 +39,7 @@ async function getAdvocates(filters: FilterParams, currentPage: number): Promise
 
 export function useAdvocates(filters: FilterParams, page: number = 1): AdvocatesQueryResult {
   const { data, isLoading } = useQuery({
-    queryKey: ["advocates", filters.search, filters.state, filters.sort, page],
+    queryKey: getAdvocatesQueryKey(filters, page),
     queryFn: () => getAdvocates(filters, page),
     placeholderData: keepPreviousData,
   });
@@ -44,4 +49,20 @@ export function useAdvocates(filters: FilterParams, page: number = 1): Advocates
     pagination: data?.pagination ?? DEFAULT_PAGINATION,
     isLoading,
   };
+}
+
+export function usePrefetchAdvocates(filters: FilterParams) {
+  const queryClient = useQueryClient();
+
+  const prefetch = useCallback(
+    (page: number) => {
+      queryClient.prefetchQuery({
+        queryKey: getAdvocatesQueryKey(filters, page),
+        queryFn: () => getAdvocates(filters, page),
+      });
+    },
+    [queryClient, filters]
+  );
+
+  return prefetch;
 }

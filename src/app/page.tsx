@@ -8,7 +8,7 @@ import { SearchInput } from "@/app/components/SearchInput";
 import { Select } from "@/app/components/Select";
 import { StatusMessage } from "@/app/components/StatusMessage";
 import { SortButton } from "@/app/components/SortButton";
-import { useAdvocates } from "@/app/hooks/useAdvocates";
+import { useAdvocates, usePrefetchAdvocates } from "@/app/hooks/useAdvocates";
 import { useDebounce } from "@/app/hooks/useDebounce";
 import { US_STATES } from "@/lib/constants";
 
@@ -21,14 +21,13 @@ export default function HomePage() {
   const [sortDirection, setSortDirection] = useQueryState("sort", parseAsStringLiteral(["asc", "desc"]).withDefault("asc"));
 
   const debouncedSearch = useDebounce(searchTerm, SEARCH_DEBOUNCE_MS);
-  const { advocates, pagination, isLoading } = useAdvocates(
-    {
-      search: debouncedSearch,
-      state: stateFilter,
-      sort: sortDirection
-    },
-    currentPage
-  );
+  const filters = {
+    search: debouncedSearch,
+    state: stateFilter,
+    sort: sortDirection
+  };
+  const { advocates, pagination, isLoading } = useAdvocates(filters, currentPage);
+  const prefetchAdvocates = usePrefetchAdvocates(filters);
 
   const onSearchTermChange = (e: ChangeEvent<HTMLInputElement>): void => {
     setSearchTerm(e.target.value);
@@ -65,6 +64,8 @@ export default function HomePage() {
             currentPage={currentPage}
             totalPages={pagination.totalPages}
             onPageChange={setCurrentPage}
+            onPrevHover={() => prefetchAdvocates(currentPage - 1)}
+            onNextHover={() => prefetchAdvocates(currentPage + 1)}
           />
         )}
       </div>

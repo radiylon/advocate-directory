@@ -1,3 +1,6 @@
+"use client";
+
+import { useRef, useEffect } from "react";
 import { Button } from "./Button";
 
 interface PaginationProps {
@@ -15,12 +18,24 @@ export function Pagination({
   onPrevHover,
   onNextHover,
 }: PaginationProps): JSX.Element | null {
+  const prevButtonRef = useRef<HTMLButtonElement>(null);
+  const nextButtonRef = useRef<HTMLButtonElement>(null);
+
+  useEffect(() => {
+    const shouldPrefetchPrev = prevButtonRef.current?.matches(":hover") && currentPage > 1 && onPrevHover;
+    const shouldPrefetchNext = nextButtonRef.current?.matches(":hover") && currentPage < totalPages && onNextHover;
+
+    if (shouldPrefetchPrev) onPrevHover();
+    if (shouldPrefetchNext) onNextHover();
+  }, [currentPage, totalPages, onPrevHover, onNextHover]);
+
   if (totalPages <= 1) return null;
 
   return (
     <div className="flex items-center gap-4 text-black">
       <div className="flex items-center gap-4">
         <Button
+          ref={prevButtonRef}
           onClick={() => onPageChange(currentPage - 1)}
           onMouseEnter={currentPage > 1 ? onPrevHover : undefined}
           onFocus={currentPage > 1 ? onPrevHover : undefined}
@@ -32,6 +47,7 @@ export function Pagination({
           Page {currentPage} of {totalPages.toLocaleString()}
         </span>
         <Button
+          ref={nextButtonRef}
           onClick={() => onPageChange(currentPage + 1)}
           onMouseEnter={currentPage < totalPages ? onNextHover : undefined}
           onFocus={currentPage < totalPages ? onNextHover : undefined}

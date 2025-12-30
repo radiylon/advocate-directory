@@ -83,8 +83,9 @@ export async function GET(request: Request) {
     });
   } catch (error) {
     console.error("Error fetching advocates:", error);
+    const message = error instanceof Error ? error.message : "Unknown error";
     return Response.json(
-      { error: "Failed to fetch advocates" },
+      { error: "Failed to fetch advocates", details: message },
       { status: 500 }
     );
   }

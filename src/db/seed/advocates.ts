@@ -14,7 +14,7 @@ function createRandomAdvocate(): RandomAdvocate {
     city: location.city,
     state: location.state,
     degree: faker.helpers.arrayElement(DEGREES),
-    specialties: faker.helpers.arrayElements(specialties, { min: 1, max: 15 }),
+    specialties: faker.helpers.arrayElements(specialties, { min: 1, max: 7 }),
     yearsOfExperience: faker.number.int({ min: 1, max: 30 }),
     phoneNumber: faker.phone.number({ style: 'national' }),
   };

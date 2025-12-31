@@ -20,10 +20,10 @@ const advocatesSchema = pgTable("advocates", {
   yearsOfExperience: integer("years_of_experience").notNull(),
   phoneNumber: text("phone_number").notNull(),
   createdAt: timestamp("created_at").default(sql`CURRENT_TIMESTAMP`),
-}, (table) => ({
-  stateIdx: index("advocates_state_idx").on(table.state),
-  lastNameIdx: index("advocates_last_name_idx").on(table.lastName),
-}));
+}, (table) => [
+  index("advocates_state_idx").on(table.state),
+  index("advocates_last_name_idx").on(table.lastName),
+]);
 
 export type Advocate = InferSelectModel<typeof advocatesSchema>;
 

@@ -42,7 +42,7 @@ export function Pagination({
           Prev
         </Button>
         <span>
-          Page {currentPage} of {totalPages.toLocaleString()}
+          Page {currentPage.toLocaleString()} of {totalPages.toLocaleString()}
         </span>
         <Button
           ref={nextButtonRef}

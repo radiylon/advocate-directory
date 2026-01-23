@@ -46,7 +46,7 @@ export function Select({
     : placeholder;
 
   return (
-    <div className="flex flex-col gap-1 relative h-[42px] justify-end flex-shrink-0" ref={containerRef}>
+    <div className="flex flex-col gap-1 relative flex-shrink-0" ref={containerRef}>
       <label className="text-sm text-gray-600">{label}</label>
       <Button
         type="button"

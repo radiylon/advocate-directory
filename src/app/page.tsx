@@ -50,7 +50,7 @@ export default function HomePage() {
 
   return (
     <main className="w-full">
-      <div className="sticky top-0 z-50 bg-white py-4 -mx-6 px-6 mb-6 border-b border-gray-200 flex flex-col items-center lg:flex-row lg:items-end lg:justify-between gap-4 h-[99px]">
+      <div className="sticky top-0 z-50 bg-white py-4 -mx-6 px-6 mb-6 border-b border-gray-200 flex flex-col items-center lg:flex-row lg:items-end lg:justify-between gap-4 min-h-[150px] md:min-h-[100px]">
         <SearchInput
           value={searchTerm}
           onChange={onSearchTermChange}

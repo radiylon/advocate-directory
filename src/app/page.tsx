@@ -57,7 +57,7 @@ export default function HomePage() {
       <div className="sticky top-0 z-50 bg-white py-4 -mx-6 px-6 mb-6 border-b border-gray-200">
         {/* Mobile: compact title + hamburger */}
         <div className="flex md:hidden items-center justify-between h-[42px]">
-          <span className="text-2xl font-normal font-display">Advocate Directory</span>
+          <span className="text-2xl font-medium font-display">Advocate Directory</span>
           <button
             onClick={() => setIsDrawerOpen(true)}
             aria-label="Open filters"

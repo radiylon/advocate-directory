@@ -6,7 +6,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   function Button({ children, disabled, className = "", ...props }, ref) {
-    const baseClasses = "px-4 py-2 border border-black";
+    const baseClasses = "px-4 py-2 border border-black text-black";
     const stateClasses = disabled
       ? "cursor-not-allowed opacity-50 bg-gray-200"
       : "cursor-pointer hover:bg-gray-100";

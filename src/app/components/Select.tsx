@@ -46,12 +46,12 @@ export function Select({
     : placeholder;
 
   return (
-    <div className="flex flex-col gap-1 relative" ref={containerRef}>
+    <div className="flex flex-col gap-1 relative h-[42px] justify-end flex-shrink-0" ref={containerRef}>
       <label className="text-sm text-gray-600">{label}</label>
       <Button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="px-3 py-2 bg-white text-black min-w-[100px] text-left flex justify-between items-center"
+        className="px-3 py-2 bg-white text-black min-w-[100px] h-[42px] text-left flex justify-between items-center flex-shrink-0"
       >
         <span className="font-medium">{displayText}</span>
         <ChevronIcon isOpen={isOpen} />

@@ -10,7 +10,7 @@ interface SortButtonProps {
 
 export function SortButton({ label, sortDirection, onClick }: SortButtonProps): JSX.Element {
   return (
-    <Button onClick={onClick} className="flex items-center gap-2">
+    <Button onClick={onClick} className="flex items-center gap-2 h-[42px] flex-shrink-0">
       {label}
       <ArrowIcon sortDirection={sortDirection} />
     </Button>

@@ -36,7 +36,7 @@ export default function RootLayout({
       <body className={`${lato.variable} ${mollieGlaston.variable} font-sans flex min-h-screen flex-col`}>
         <AppDisclaimer />
         <Providers>
-          <div className="mx-auto max-w-6xl p-6 pb-12">
+          <div className="mx-auto w-full min-w-[320px] max-w-6xl p-6 pb-12">
             <h1 className="mt-4 mb-6 text-4xl font-normal font-display text-center">Advocate Directory</h1>
             <Suspense fallback={<p className="text-lg text-center italic">Loading...</p>}>
               {children}

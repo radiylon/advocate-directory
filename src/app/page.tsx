@@ -49,8 +49,8 @@ export default function HomePage() {
   const toggleSortDirection = () => setSortDirection(sortDirection === 'asc' ? 'desc' : 'asc');
 
   return (
-    <main>
-      <div className="flex flex-col items-center lg:flex-row lg:items-end lg:justify-between gap-4 mb-6">
+    <main className="w-full">
+      <div className="sticky top-0 z-50 bg-white py-4 -mx-6 px-6 mb-6 border-b border-gray-200 flex flex-col items-center lg:flex-row lg:items-end lg:justify-between gap-4 h-[99px]">
         <SearchInput
           value={searchTerm}
           onChange={onSearchTermChange}
@@ -59,7 +59,7 @@ export default function HomePage() {
           <Select label="State" value={stateFilter} options={US_STATES} onChange={onStateChange} />
           <SortButton label="Name" sortDirection={sortDirection} onClick={toggleSortDirection} />
         </SearchInput>
-        {!isLoading && (
+        <div className="h-[42px] flex items-center flex-shrink-0">
           <Pagination
             currentPage={currentPage}
             totalPages={pagination.totalPages}
@@ -67,7 +67,7 @@ export default function HomePage() {
             onPrevHover={() => prefetchAdvocates(currentPage - 1)}
             onNextHover={() => prefetchAdvocates(currentPage + 1)}
           />
-        )}
+        </div>
       </div>
       <StatusMessage isLoading={isLoading} totalCount={pagination.totalCount} />
       <AdvocateList advocates={advocates} />

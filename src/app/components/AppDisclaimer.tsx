@@ -23,7 +23,7 @@ export function AppDisclaimer() {
   }
 
   return (
-    <div className="fixed top-0 left-0 right-0 z-50 bg-primary text-white px-4 py-3 text-center text-md opacity-95">
+    <div className="fixed top-0 left-0 right-0 z-[55] bg-primary text-white px-4 py-3 text-center text-md opacity-95">
       <p>
         <strong>DISCLAIMER:</strong>&nbsp; This is a demo app.&nbsp; All information
         displayed is fictional and for illustrative purposes only.
